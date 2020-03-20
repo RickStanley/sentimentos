@@ -17,6 +17,12 @@
   <sub>Built with 🦀🕸 by <a href="https://rustwasm.github.io/">The Rust and WebAssembly Working Group</a></sub>
 </div>
 
+## About (by Rick Stanley)
+
+The goal is to have an Sentiment Analysis compiled to wasm, to testing purposes.
+I love Rust, but I haven't the pleasure of using it in production yeat.
+I adore WebAssembly, ditto.
+
 ## About
 
 [**📚 Read this template tutorial! 📚**][template-docs]

@@ -1,25 +1,28 @@
-// @todo remove this test module, after version 1
-#[cfg(test)]
-mod test {
-    use rust_stemmers::{Algorithm, Stemmer};
-    use std::collections::HashSet;
-    use stopwords::{Spark, Language, Stopwords};
+use std::str::FromStr;
 
-    #[test]
-    fn pt_stemming() {
-        let pt_stemmer = Stemmer::create(Algorithm::Portuguese);
+pub enum Language {
+    Portuguese,
+}
 
-        assert_eq!(pt_stemmer.stem("verdadeiramente"), "verdadeir");
-        assert_eq!(pt_stemmer.stem("desvalorização"), "desvaloriz");
-        assert_eq!(pt_stemmer.stem("ajudar"), "ajud");
-        assert_eq!(pt_stemmer.stem("desagradável"), "desagrad");
+
+impl FromStr for Language {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Language, ()> {
+        match s {
+            "portuguese" => Ok(Language::Portuguese),
+            _ => Err(()),
+        }
     }
+}
 
-    #[test]
-    fn rm_stopwords() {
-        let stops: HashSet<_> = Spark::stopwords(Language::Portuguese).unwrap().iter().collect();
-        let mut tokens = vec!("coco", "e", "merda");
-        tokens.retain(|s| !stops.contains(s));
-        assert_eq!(tokens, vec!("coco", "merda"));
+// @todo Every file should be zippe (gzip)
+// Portuguese
+const PT_AFINN: &str = include_str!("pt-br/afinn.json");
+const PT_NEG: &str = include_str!("pt-br/negations.json");
+
+pub fn get_directives(lang: Language) -> (&'static str, &'static str) {
+    match lang {
+        Language::Portuguese => (PT_AFINN, PT_NEG),
     }
 }
