@@ -13,6 +13,5 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 pub fn anaylize(phrase: &str, language: &str) -> String {
-    // @todo Remove hardcoded PT Lang
     language_processor::analyze(phrase, language)
 }

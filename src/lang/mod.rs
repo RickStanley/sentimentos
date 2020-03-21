@@ -11,13 +11,14 @@ impl FromStr for Language {
     fn from_str(s: &str) -> Result<Language, ()> {
         match s {
             "portuguese" => Ok(Language::Portuguese),
-            _ => Err(()),
+            _ => unimplemented!(),
         }
     }
 }
 
 // @todo Every file should be zippe (gzip)
 // Portuguese
+// const PT_AFINN: &str = include_str!("pt-br/afinn_stemmed.json");
 const PT_AFINN: &str = include_str!("pt-br/afinn.json");
 const PT_NEG: &str = include_str!("pt-br/negations.json");
 

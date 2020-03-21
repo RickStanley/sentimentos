@@ -13,14 +13,21 @@ struct Negations {
     words: Vec<String>,
 }
 
+fn identify_language(prefix: &str) -> Result<StemLanguage, &'static str> {
+    match prefix {
+        "portuguese" => Ok(StemLanguage::Portuguese),
+        _ => unimplemented!(),
+    }
+}
+
 pub fn analyze(analizable: &str, lang: &str) -> String {
     let language: Language = Language::from_str(lang).unwrap();
 
     let stop_lang: StopLanguage = StopLanguage::from_str(lang).unwrap();
 
     // @todo Since there is no implementation of `FromStr`
-    // forrust_stemmers's Language, we should create our own later
-    let stem_lang: StemLanguage = StemLanguage::Portuguese;
+    // for rust_stemmers's Language, we should create our own later
+    let stem_lang: StemLanguage = identify_language(lang).unwrap();
 
     let (afinn, negations) = get_directives(language);
 
@@ -83,14 +90,28 @@ mod test {
     use super::analyze;
     use serde_json::json;
     #[test]
-    fn basic() {
-        let analizable = "Eu não odeio a minha vida...";
+    fn good_feeling() {
         let lang = "portuguese";
+
+        let analizable = "Eu não odeio a minha vida...";
 
         let result = analyze(analizable, lang);
         let expected = json!({
-            "score": 1,
-            "num_hits": 3
+            "num_hits": 3,
+            "score": 1
+        })
+        .to_string();
+        assert_eq!(result, expected);
+    }
+    #[test]
+    fn bad_feeling() {
+        let lang = "portuguese";
+
+        let analizable = "não sou muito fã de gatos ;P";
+        let result = analyze(analizable, lang);
+        let expected = json!({
+            "num_hits": 5,
+            "score": -7
         })
         .to_string();
         assert_eq!(result, expected);
