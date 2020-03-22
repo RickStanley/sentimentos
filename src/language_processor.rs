@@ -45,16 +45,21 @@ pub fn analyze(analizable: &str, lang: &str) -> String {
         .map(|s| stemmer.stem(s).into_owned())
         .collect();
 
+    println!("{:?}", tokens);
+
     let mut tokens: Vec<&str> = tokens.iter().map(|s| &**s).collect();
 
     tokens.retain(|s| !stops.contains(s));
 
+    println!("{:?}", tokens);
     let mut score = 0;
     let mut negator = 1;
     let mut num_hits = 0;
 
+    // Process begin
     for token in tokens {
         let index = json_negations.words.iter().position(|r| r.contains(token));
+        println!("{:?}", index);
         match index {
             Some(_) => {
                 negator = -1;
@@ -90,21 +95,39 @@ mod test {
     use super::analyze;
     use serde_json::json;
     #[test]
-    fn good_feeling() {
+    fn good_feelings() {
         let lang = "portuguese";
 
         let analizable = "Eu não odeio a minha vida...";
 
         let result = analyze(analizable, lang);
+
         let expected = json!({
             "num_hits": 3,
             "score": 1
         })
         .to_string();
+
         assert_eq!(result, expected);
     }
     #[test]
-    fn bad_feeling() {
+    fn neutral_feelings() {
+        let lang = "portuguese";
+
+        let analizable = "gosto como as coisas são, pelo menos não me decepciono";
+
+        let result = analyze(analizable, lang);
+
+        let expected = json!({
+            "num_hits": 0,
+            "score": 7
+        })
+        .to_string();
+
+        assert_eq!(result, expected);
+    }
+    #[test]
+    fn bad_feelings() {
         let lang = "portuguese";
 
         let analizable = "não sou muito fã de gatos ;P";
