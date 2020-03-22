@@ -19,7 +19,7 @@
 
 ## About (by Rick Stanley)
 
-The goal is to have an Sentiment Analysis compiled to wasm, to testing purposes.
+The goal is to have an Sentiment Analysis compiled to wasm, experiment purpose 🧪.
 I love Rust, but I haven't the pleasure of using it in production yeat.
 I adore WebAssembly, ditto.
 
