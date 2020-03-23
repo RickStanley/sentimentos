@@ -11,6 +11,8 @@ The goal is to have an Sentiment Analysis compiled to wasm, experiment purpose ð
 I love Rust, but I haven't the pleasure of using it in production yet.
 I adore WebAssembly, ditto.
 
+The way I'm doing right now is just, bad... For most, if not every, use case.
+
 ### Thoughts
 - Should we keep and dictionary for every language, whilst compressing it?
 - Should we create a separate build for:
